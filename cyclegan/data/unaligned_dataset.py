@@ -1,4 +1,5 @@
 import os.path
+import ntpath
 from data.base_dataset import BaseDataset, get_transform
 from data.image_folder import make_dataset
 from PIL import Image
@@ -32,9 +33,10 @@ class UnalignedDataset(BaseDataset):
         A_img = Image.open(A_path).convert('RGB')
         B_img = Image.open(B_path).convert('RGB')
 
-        A_label = int(A_path.split('/')[-1].split('_')[0])
-        B_label = int(B_path.split('/')[-1].split('_')[0])
-        
+        A_label = int(ntpath.basename(A_path).split('_')[0])
+        B_label = int(ntpath.basename(A_path).split('_')[0])
+
+
         A = self.transform(A_img)
         B = self.transform(B_img)
         if self.opt.which_direction == 'BtoA':

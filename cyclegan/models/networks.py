@@ -407,7 +407,7 @@ class Classifier(nn.Module):
 
         nf_mult = 1
         nf_mult_prev = 1
-        for n in range(3):
+        for n in range(4): # 3 when digits, 4 when larger
             nf_mult_prev = nf_mult
             nf_mult = min(2**n, 8)
             sequence += [
@@ -416,10 +416,26 @@ class Classifier(nn.Module):
                 norm_layer(ndf * nf_mult, affine=True),
                 nn.LeakyReLU(0.2, True)
             ]
+        ########################################################
+        nf_mult_prev = nf_mult
+        nf_mult = 8
+
+        sequence += [
+            nn.Conv2d(ndf * nf_mult_prev, ndf * nf_mult,
+                      kernel_size=kw, stride=1),
+            norm_layer(ndf * nf_mult),
+            nn.LeakyReLU(0.2, True)] * 2
+
+        sequence += [nn.Conv2d(ndf * nf_mult, ndf * nf_mult, kernel_size=kw, stride=1)]
+        ########################################################
+
         self.before_linear = nn.Sequential(*sequence)
-        
+
         sequence = [
+            # change here to ndf * nf_mult when work on digits
+            # otherwise change to 57600
             nn.Linear(ndf * nf_mult, 1024),
+            # nn.Linear(57600, 1024),
             nn.Linear(1024, 10)
         ]
 
@@ -427,6 +443,9 @@ class Classifier(nn.Module):
     
     def forward(self, x):
         bs = x.size(0)
+        # print('===================== X.view',x.view(x.size(0), -1).shape)
+        # print('===================== before_linear', self.before_linear(x).shape)
+        # print('===================== before_linear view', self.before_linear(x).view(bs, -1).shape)
         out = self.after_linear(self.before_linear(x).view(bs, -1))
         return out
  #       return nn.functional.log_softmax(out, dim=1)
