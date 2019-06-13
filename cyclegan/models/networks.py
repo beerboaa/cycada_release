@@ -434,12 +434,7 @@ class Classifier(nn.Module):
         sequence = [
 
             nn.Linear(ndf * nf_mult, 1024),
-<<<<<<< HEAD
-            # nn.Linear(57600, 1024),
-            nn.Linear(1024, 31)
-=======
             nn.Linear(1024, 10)
->>>>>>> fe8c065bf6ca09d9d63be1be5e9a8e0a6a2eadb5
         ]
 
         self.after_linear = nn.Sequential(*sequence)
@@ -453,3 +448,4 @@ class Classifier(nn.Module):
         return out
  #       return nn.functional.log_softmax(out, dim=1)
  
+
