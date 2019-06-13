@@ -407,7 +407,7 @@ class Classifier(nn.Module):
 
         nf_mult = 1
         nf_mult_prev = 1
-        for n in range(4): # 3 when digits, 4 when larger
+        for n in range(3): # 3 when digits, 4 when larger
             nf_mult_prev = nf_mult
             nf_mult = min(2**n, 8)
             sequence += [
@@ -417,26 +417,29 @@ class Classifier(nn.Module):
                 nn.LeakyReLU(0.2, True)
             ]
         ########################################################
-        nf_mult_prev = nf_mult
-        nf_mult = 8
-
-        sequence += [
-            nn.Conv2d(ndf * nf_mult_prev, ndf * nf_mult,
-                      kernel_size=kw, stride=1),
-            norm_layer(ndf * nf_mult),
-            nn.LeakyReLU(0.2, True)] * 2
-
-        sequence += [nn.Conv2d(ndf * nf_mult, ndf * nf_mult, kernel_size=kw, stride=1)]
+        # nf_mult_prev = nf_mult
+        # nf_mult = 8
+        #
+        # sequence += [
+        #     nn.Conv2d(ndf * nf_mult_prev, ndf * nf_mult,
+        #               kernel_size=kw, stride=1),
+        #     norm_layer(ndf * nf_mult),
+        #     nn.LeakyReLU(0.2, True)] * 2
+        #
+        # sequence += [nn.Conv2d(ndf * nf_mult, ndf * nf_mult, kernel_size=kw, stride=1)]
         ########################################################
 
         self.before_linear = nn.Sequential(*sequence)
 
         sequence = [
-            # change here to ndf * nf_mult when work on digits
-            # otherwise change to 57600
+
             nn.Linear(ndf * nf_mult, 1024),
+<<<<<<< HEAD
             # nn.Linear(57600, 1024),
             nn.Linear(1024, 31)
+=======
+            nn.Linear(1024, 10)
+>>>>>>> fe8c065bf6ca09d9d63be1be5e9a8e0a6a2eadb5
         ]
 
         self.after_linear = nn.Sequential(*sequence)
