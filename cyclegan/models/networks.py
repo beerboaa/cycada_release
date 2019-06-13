@@ -436,7 +436,7 @@ class Classifier(nn.Module):
             # otherwise change to 57600
             nn.Linear(ndf * nf_mult, 1024),
             # nn.Linear(57600, 1024),
-            nn.Linear(1024, 10)
+            nn.Linear(1024, 31)
         ]
 
         self.after_linear = nn.Sequential(*sequence)
