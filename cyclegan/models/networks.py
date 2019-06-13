@@ -116,11 +116,11 @@ def define_C(output_nc, ndf, init_type='normal', gpu_ids=[]):
     #else:
     #    Exception('classifier only implemented for 32x32x3 images')
 
-    model_ft = models.squeezenet1_0(pretrained=use_pretrained)
-    set_parameter_requires_grad(model_ft, feature_extract)
-    model_ft.classifier[1] = nn.Conv2d(512, num_classes, kernel_size=(1, 1), stride=(1, 1))
-    model_ft.num_classes = num_classes
-    input_size = 224
+    # model_ft = models.squeezenet1_0(pretrained=use_pretrained)
+    # set_parameter_requires_grad(model_ft, feature_extract)
+    # model_ft.classifier[1] = nn.Conv2d(512, num_classes, kernel_size=(1, 1), stride=(1, 1))
+    # model_ft.num_classes = num_classes
+    # input_size = 224
 
     netC = Classifier(output_nc, ndf)
     return init_net(netC, init_type, gpu_ids)
