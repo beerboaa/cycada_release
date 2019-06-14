@@ -523,6 +523,7 @@ class Classifier(nn.Module):
         conv5 = self.conv5(conv4)
         conv6 = self.conv6(conv5)
         flat6 = self.global_avg(conv6)
+        flat6 = flat6.view(bs, -1)
         fc_aux = self.fc_aux(flat6)
 
         return fc_aux
