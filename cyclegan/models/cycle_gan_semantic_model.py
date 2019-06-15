@@ -68,7 +68,8 @@ class CycleGANSemanticModel(BaseModel):
                                                 lr=opt.lr, betas=(opt.beta1, 0.999))
             self.optimizer_D = torch.optim.Adam(itertools.chain(self.netD_A.parameters(), self.netD_B.parameters()),
                                                 lr=opt.lr, betas=(opt.beta1, 0.999))
-            self.optimizer_CLS = torch.optim.Adam(self.netCLS.parameters(), lr=1e-3, betas=(opt.beta1, 0.999))
+            # self.optimizer_CLS = torch.optim.Adam(self.netCLS.parameters(), lr=1e-3, betas=(opt.beta1, 0.999))
+            self.optimizer_CLS = torch.optim.SGD(self.netCLS.parameters(), lr=0.001, momentum=0.9)
             self.optimizers = []
             self.optimizers.append(self.optimizer_G)
             self.optimizers.append(self.optimizer_D)
