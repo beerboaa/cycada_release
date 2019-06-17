@@ -116,7 +116,7 @@ def define_C(output_nc, ndf, init_type='normal', gpu_ids=[]):
     #else:
     #    Exception('classifier only implemented for 32x32x3 images')
     #=================================================================================================
-    num_classes = 12
+    num_classes = 31
     netC = models.squeezenet1_0(pretrained=True)
     set_parameter_requires_grad(netC, False)
     netC.classifier[1] = nn.Conv2d(512, num_classes, kernel_size=(1, 1), stride=(1, 1))
